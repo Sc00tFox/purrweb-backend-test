@@ -20,6 +20,7 @@ import databseConfig from './config/databse.config';
         username: ConfigService.get<string>('db.username'),
         password: ConfigService.get<string>('db.password'),
         database: ConfigService.get<string>('db.database'),
+        entities: [__dirname + '/entities/*.entity.ts'],
         autoLoadEntities: true,
         synchronize: true,
       }),
