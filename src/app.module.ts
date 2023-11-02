@@ -5,6 +5,10 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import databseConfig from './config/databse.config';
+import { Users } from './entities/users.entity';
+import { Cards } from './entities/cards.entity';
+import { Columns } from './entities/columns.entity';
+import { Comments } from './entities/comments.entity';
 
 @Module({
   imports: [
@@ -20,7 +24,13 @@ import databseConfig from './config/databse.config';
         username: ConfigService.get<string>('db.username'),
         password: ConfigService.get<string>('db.password'),
         database: ConfigService.get<string>('db.database'),
-        entities: [__dirname + '/entities/*.entity.ts'],
+        schema: ConfigService.get<string>('db.schema'),
+        entities: [
+          Cards,
+          Columns,
+          Comments,
+          Users
+        ],
         autoLoadEntities: true,
         synchronize: true,
       }),

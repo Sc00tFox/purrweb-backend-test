@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Columns } from "./columns.entity";
+import { Comments } from "./comments.entity";
 
 @Entity()
 export class Cards {
@@ -7,4 +9,10 @@ export class Cards {
 
     @Column({unique: true})
     name: string;
+
+    @ManyToOne(() => Columns, (Columns) => Columns.cards)
+    column: Columns
+
+    @OneToMany(() => Comments, (Comments) => Comments.id)
+    comments: Comments[]
 }
