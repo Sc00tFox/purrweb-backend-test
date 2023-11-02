@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Columns } from "./columns.entity";
-import { Comments } from "./comments.entity";
+import { Columns } from "../../columns/entities/columns.entity";
+import { Comments } from "../../comments/entities/comments.entity";
 
 @Entity()
 export class Cards {
