@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
-import { AppService } from './services/app.service';
+import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
 
-import databseConfig from './config/databse.config';
+import databseConfig from './config/database.config';
+import jwtConfig from './config/jwt.config';
+
 import { Users } from './users/entites/users.entity';
 import { Cards } from './cards/entities/cards.entity';
 import { Columns } from './columns/entities/columns.entity';
@@ -13,7 +16,10 @@ import { Comments } from './comments/entities/comments.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databseConfig],
+      load: [
+        databseConfig,
+        jwtConfig,
+      ]
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -35,7 +41,14 @@ import { Comments } from './comments/entities/comments.entity';
         synchronize: true,
       }),
       inject: [ConfigService],
-    })
+    }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('jwt.JWT_SECRET_KEY'),
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
