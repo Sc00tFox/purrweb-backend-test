@@ -10,6 +10,9 @@ export class Columns {
     @Column({unique: true})
     title: string;
 
+    @Column()
+    userId: number;
+
     @ManyToOne(() => Users, (Users) => Users.columns)
     user: Users
 
