@@ -10,6 +10,9 @@ export class Cards {
     @Column({unique: true})
     name: string;
 
+    @Column()
+    columnId: number;
+
     @ManyToOne(() => Columns, (Columns) => Columns.cards)
     column: Columns
 
