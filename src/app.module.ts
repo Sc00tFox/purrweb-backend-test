@@ -12,6 +12,7 @@ import { Comments } from './comments/entities/comments.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ColumnsModule } from './columns/columns.module';
+import { CardsModule } from './cards/cards.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { ColumnsModule } from './columns/columns.module';
     }),
     AuthModule,
     UsersModule,
-    ColumnsModule
+    ColumnsModule,
+    CardsModule
   ],
   controllers: [],
   providers: [AppService],
