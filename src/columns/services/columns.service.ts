@@ -12,8 +12,8 @@ export class ColumnsService {
     async createColumn(@Param("title") title: string) {
         return this.columnsRepository.create({ title: title });
     }
-    
-    async getOneOrFail(@Param("id", ParseIntPipe) id: number): Promise<Columns> {
+
+    async getColumnById(@Param("id", ParseIntPipe) id: number): Promise<Columns> {
         return this.columnsRepository.findOneOrFail({ where: { id }});
     }
 

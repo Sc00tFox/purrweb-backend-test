@@ -11,7 +11,7 @@ export class ColumnsController {
     ) {}
     
     @ApiOperation({ summary: 'Create column' })
-    @ApiBody({ type: CreateColumnsDto})
+    @ApiBody({ type: CreateColumnsDto })
     @ApiResponse({ status: 200 })
     @Post(':title')
     async createColumn(@Param('title') title: string) {
@@ -23,14 +23,14 @@ export class ColumnsController {
     @ApiResponse({ status: 200, type: GetColumnDto })
     @Get(':id')
     async getColumnById(@Param('id') id: number): Promise<GetColumnDto> {
-        return this.columnsService.getOneOrFail(id);
+        return this.columnsService.getColumnById(id);
     }
 
-    @ApiOperation({ summary: 'Delete columns by Id' })
+    @ApiOperation({ summary: 'Delete column by Id' })
     @ApiBody({ type: GetColumnIdDto })
     @ApiResponse({ status: 200 })
     @Delete(':id')
-    async deleteUserColumns(@Param('id') id: number) {
+    async deleteUserColumnById(@Param('id') id: number) {
         return this.columnsService.deleteColumnById(id);
     }
 }
