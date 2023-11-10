@@ -1,5 +1,5 @@
 import { Injectable, Param, ParseIntPipe } from "@nestjs/common";
-import { CreateUserDto } from "../dtos/users.dto";
+import { UserDto } from "../dtos/users.dto";
 import { Users } from "../entites/users.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -14,6 +14,10 @@ export class UserService {
         return this.usersRepository.findOneOrFail({ where: { id }});
     }
 
+    async getUserById(@Param("id", ParseIntPipe) id: number): Promise<Users> {
+        return this.usersRepository.findOne({ where: { id }});
+    }
+
     async getByEmailAndPassword(email: string, password: string): Promise<Users> {
         return this.usersRepository.findOne({ where: { email, password }});
     }
@@ -22,7 +26,7 @@ export class UserService {
         return this.usersRepository.count({ where: { email: email }});
     }
 
-    async create(users: CreateUserDto): Promise<Users> {
+    async create(users: UserDto): Promise<Users> {
         return this.usersRepository.save(this.usersRepository.create(users));
     }
 }
