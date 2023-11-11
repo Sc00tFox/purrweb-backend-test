@@ -30,9 +30,4 @@ export class UserResponse {
     @IsNotEmpty()
     @IsEmail()
     email: string;
-
-    @ApiProperty({ example: "Str0ngP@$$w0rD!", description: "User password"})
-    @IsNotEmpty()
-    @IsString()
-    password: string;
 }
