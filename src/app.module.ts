@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ColumnsModule } from './columns/columns.module';
 import { CardsModule } from './cards/cards.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import { CardsModule } from './cards/cards.module';
     AuthModule,
     UsersModule,
     ColumnsModule,
-    CardsModule
+    CardsModule,
+    CommentsModule
   ],
   controllers: [],
   providers: [AppService],
