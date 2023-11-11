@@ -2,6 +2,7 @@ import { Injectable, Param, ParseIntPipe } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Columns } from "../entities/columns.entity";
 import { Repository } from "typeorm";
+import { CreateColumnsDto } from "../dtos/columns.dto";
 
 @Injectable()
 export class ColumnsService {
@@ -9,8 +10,8 @@ export class ColumnsService {
         @InjectRepository(Columns) private readonly columnsRepository: Repository<Columns>,
     ) {}
 
-    async createColumn(@Param("title") title: string) {
-        return this.columnsRepository.create({ title: title });
+    async createColumn(column: CreateColumnsDto) {
+        return this.columnsRepository.save(this.columnsRepository.create(column));
     }
 
     async getColumnById(@Param("id", ParseIntPipe) id: number): Promise<Columns> {

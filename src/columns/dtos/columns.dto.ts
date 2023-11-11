@@ -6,10 +6,15 @@ export class CreateColumnsDto {
     @IsNotEmpty()
     @IsString()
     title: string;
+
+    @ApiProperty({ example: "1", description: "Column UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
 }
 
 export class GetColumnDto {
-    @ApiProperty({ example: "1", description: "Column id"})
+    @ApiProperty({ example: "1", description: "Column Id"})
     @IsNotEmpty()
     @IsNumber()
     id: number;
@@ -26,7 +31,7 @@ export class GetColumnDto {
 }
 
 export class GetColumnIdDto {
-    @ApiProperty({ example: "1", description: "Column id"})
+    @ApiProperty({ example: "1", description: "Column Id"})
     @IsNotEmpty()
     @IsNumber()
     id: number;
