@@ -1,10 +1,49 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDefined, IsNotEmpty, IsString } from "class-validator";
+import { IsDefined, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class CreateCommentsDto {
+export class CreateCommentDto {
     @ApiProperty({ example: "Mega super cool comment", description: "Comment text"})
     @IsDefined()
     @IsNotEmpty()
     @IsString()
     body: string;
+
+    @ApiProperty({ example: "1", description: "CardId"})
+    @IsNotEmpty()
+    @IsNumber()
+    cardId: number;
+
+    @ApiProperty({ example: "1", description: "Comment UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
+}
+
+export class GetCommentDto {
+    @ApiProperty({ example: "1", description: "Comment Id"})
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
+    @ApiProperty({ example: "My First Comment", description: "Comment body"})
+    @IsNotEmpty()
+    @IsString()
+    body: string;
+
+    @ApiProperty({ example: "1", description: "Comment CardId"})
+    @IsNotEmpty()
+    @IsNumber()
+    cardId: number;
+
+    @ApiProperty({ example: "1", description: "Comment UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
+}
+
+export class GetCommentIdDto {
+    @ApiProperty({ example: "1", description: "Comment Id"})
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
 }
