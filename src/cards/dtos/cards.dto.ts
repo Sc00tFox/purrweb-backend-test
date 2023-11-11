@@ -6,6 +6,11 @@ export class CreateCardDto {
     @IsNotEmpty()
     @IsString()
     name: string;
+
+    @ApiProperty({ example: "1", description: "Column Id" })
+    @IsNotEmpty()
+    @IsNumber()
+    columnId: number;
 }
 
 export class GetCardDto {

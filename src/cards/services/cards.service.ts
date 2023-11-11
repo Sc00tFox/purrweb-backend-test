@@ -2,6 +2,7 @@ import { Injectable, Param, ParseIntPipe } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cards } from "../entities/cards.entity";
 import { Repository } from "typeorm";
+import { CreateCardDto } from "../dtos/cards.dto";
 
 @Injectable()
 export class CardsService {
@@ -9,8 +10,8 @@ export class CardsService {
         @InjectRepository(Cards) private readonly cardsRepository: Repository<Cards>
     ) {}
 
-    async createCard(@Param("name") name: string) {
-        return this.cardsRepository.create({ name: name });
+    async createCard(card: CreateCardDto) {
+        return this.cardsRepository.save(this.cardsRepository.create(card));
     }
 
     async getCardById(@Param("id", ParseIntPipe) id: number): Promise<Cards> {
