@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param } from "@nestjs/common";
+import { Controller, Post, Get, Body, Param, ParseIntPipe } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { AuthDto, AuthResponse } from "src/auth/dtos/auth.dto";
 import { AuthService } from "src/auth/services/auth.service";
@@ -25,7 +25,7 @@ export class UsersController {
     @ApiBody({ type: GetUserDto })
     @ApiResponse({ status: 200, type: UserResponse })
     @Get(':id')
-    async getUser(@Param('id') id: number): Promise<UserDto> {
+    async getUser(@Param("id", ParseIntPipe)  id: number): Promise<UserDto> {
         return this.userService.getOneOrFail(id);
     }
 }
