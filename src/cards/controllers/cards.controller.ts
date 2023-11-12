@@ -1,7 +1,7 @@
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CardsService } from "../services/cards.service";
-import { CardsResponseDto, CreateCardDto, GetCardDto } from "../dtos/cards.dto";
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { CardsResponseDto, CreateCardDto, GetCardDto, UpdateCardDto } from "../dtos/cards.dto";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 
 @ApiTags('Cards')
@@ -18,15 +18,25 @@ export class CardsController {
     @UseGuards(AuthGuard('jwt'))
     @Post()
     async createCard(@Body() input: CreateCardDto) {
-        return this.cardsService.createCard(input);
+        return this.cardsService.createCard({name: input.name, columnId: input.columnId });
     }
 
     @ApiOperation({ summary: 'Get card by Id' })
     @ApiBody({ type: GetCardDto })
     @ApiResponse({ status: 200, type: CardsResponseDto })
     @Get(':id')
-    async getCardById(@Param('id') id: number) {
+    async getCardById(@Param("id", ParseIntPipe) id: number) {
         return this.cardsService.getCardById(id);
+    }
+
+    @ApiOperation({ summary: 'Update card name' })
+    @ApiBody({ type: UpdateCardDto })
+    @ApiResponse({ status: 200 })
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard('jwt'))
+    @Put()
+    async updateColumn(@Body() input: UpdateCardDto) {
+        return this.cardsService.updateCard({ id: input.id, name: input.name });
     }
 
     @ApiOperation({ summary: 'Delete card by Id' })
@@ -35,7 +45,7 @@ export class CardsController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
     @Delete(':id')
-    async deleteUserColumns(@Param('id') id: number) {
+    async deleteUserColumns(@Param("id", ParseIntPipe) id: number) {
         return this.cardsService.deleteCardById(id);
     }
 }
