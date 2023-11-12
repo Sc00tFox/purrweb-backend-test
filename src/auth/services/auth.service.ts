@@ -14,7 +14,7 @@ export class AuthService {
     async singUp(dto: AuthDto): Promise<AuthResponse> {
         const isUserExist = await this.userService.isUserExist(dto.email);
 
-        if (isUserExist.valueOf() > 0) {
+        if (isUserExist) {
             throw new ForbiddenException("User is already exists!");
         }
 
