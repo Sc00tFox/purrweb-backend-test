@@ -36,3 +36,15 @@ export class GetColumnIdDto {
     @IsNumber()
     id: number;
 }
+
+export class UpdateColumnDto {
+    @ApiProperty({ example: "1", description: "Column Id"})
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+    
+    @ApiProperty({ example: "Column 1", description: "Column title"})
+    @IsNotEmpty()
+    @IsString()
+    title: string;
+}
