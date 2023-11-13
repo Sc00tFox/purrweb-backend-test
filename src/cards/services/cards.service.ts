@@ -1,8 +1,8 @@
-import { Injectable, Param, ParseIntPipe } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cards } from "../entities/cards.entity";
 import { Repository } from "typeorm";
-import { CreateCardDto } from "../dtos/cards.dto";
+import { CreateCardDto, DeleteCardDto, UpdateCardDto } from "../dtos/cards.dto";
 
 @Injectable()
 export class CardsService {
@@ -14,11 +14,28 @@ export class CardsService {
         return this.cardsRepository.save(this.cardsRepository.create(card));
     }
 
-    async getCardById(@Param("id", ParseIntPipe) id: number): Promise<Cards> {
+    async getCardById(id: number): Promise<Cards> {
         return this.cardsRepository.findOneOrFail({ where: { id }});
     }
 
-    async deleteCardById(@Param("id", ParseIntPipe) id: number) {
-        return this.cardsRepository.delete({ id: id });
+    async updateCard(card: UpdateCardDto): Promise<Cards> {
+        const findCard = await this.cardsRepository.findOne({ where: { id: card.id }});
+
+        if (!findCard) {
+            throw new NotFoundException("Card not Found!");
+        }
+        
+        findCard.name = card.name;
+        return this.cardsRepository.save(findCard);
+    }
+
+    async deleteCard(card: DeleteCardDto) {
+        const findCard = await this.cardsRepository.findOne({ where: { id: card.id }});
+
+        if (!findCard) {
+            throw new NotFoundException("Card not Found!");
+        }
+        
+        return this.cardsRepository.delete({ id: card.id });
     }
 }

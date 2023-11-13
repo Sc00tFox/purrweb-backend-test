@@ -15,6 +15,6 @@ export class AuthController {
     @ApiResponse({ status: 200, type: AuthResponse })
     @Post()
     async singIn(@Body() input: AuthDto): Promise<AuthResponse> {
-        return this.authService.signIn(input);
+        return this.authService.signIn({ email: input.email, password: input.password });
     }
 }

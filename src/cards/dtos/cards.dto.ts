@@ -36,3 +36,32 @@ export class CardsResponseDto {
     @IsNumber()
     columnId: number;
 }
+
+export class UpdateCardDto {
+    @ApiProperty({ example: "1", description: "Card Id"})
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+    
+    @ApiProperty({ example: "Card 1", description: "Card name"})
+    @IsNotEmpty()
+    @IsString()
+    name: string;
+
+    @ApiProperty({ example: "1", description: "Column Id" })
+    @IsNotEmpty()
+    @IsNumber()
+    columnId: number;
+}
+
+export class DeleteCardDto {
+    @ApiProperty({ example: "1", description: "Card Id" })
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
+    @ApiProperty({ example: "1", description: "Column Id" })
+    @IsNotEmpty()
+    @IsNumber()
+    columnId: number;
+}
