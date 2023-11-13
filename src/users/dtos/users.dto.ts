@@ -20,7 +20,7 @@ export class GetUserDto {
     id: number;
 }
 
-export class UserResponse {
+export class UserResponseDto {
     @ApiProperty({ example: "1", description: "UserID" })
     @IsNotEmpty()
     @IsNumber()
@@ -30,4 +30,28 @@ export class UserResponse {
     @IsNotEmpty()
     @IsEmail()
     email: string;
+}
+
+export class UserUpdateDto {
+    @ApiProperty({ example: "1", description: "UserID" })
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
+    @ApiProperty({ example: "myemal@exampe.com", description: "User email"})
+    @IsNotEmpty()
+    @IsEmail()
+    email: string;
+
+    @ApiProperty({ example: "Str0ngP@$$w0rD!", description: "User password"})
+    @IsNotEmpty()
+    @IsString()
+    password: string;
+}
+
+export class UserDeleteDto {
+    @ApiProperty({ example: "1", description: "UserID" })
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
 }
