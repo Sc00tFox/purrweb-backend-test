@@ -47,4 +47,21 @@ export class UpdateColumnDto {
     @IsNotEmpty()
     @IsString()
     title: string;
+
+    @ApiProperty({ example: "1", description: "Column UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
+}
+
+export class DeleteColumnDto {
+    @ApiProperty({ example: "1", description: "Column Id"})
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
+    @ApiProperty({ example: "1", description: "Column UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
 }

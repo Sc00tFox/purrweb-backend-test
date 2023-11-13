@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Columns } from "../entities/columns.entity";
 import { Repository } from "typeorm";
-import { CreateColumnsDto, UpdateColumnDto } from "../dtos/columns.dto";
+import { CreateColumnsDto, DeleteColumnDto, UpdateColumnDto } from "../dtos/columns.dto";
 
 @Injectable()
 export class ColumnsService {
@@ -29,7 +29,15 @@ export class ColumnsService {
         return this.columnsRepository.save(findColumn);
     }
 
-    async deleteColumnById(id: number) {
-        return this.columnsRepository.delete({ id: id });
+    async deleteColumnById(column: DeleteColumnDto) {
+        return this.columnsRepository.delete({ id: column.id });
+    }
+
+    async isOwner(columnId: number, userId: number): Promise<boolean> {
+        const column = this.columnsRepository.findOne({ where: { id: columnId }});
+        if (!column) {
+            return false;
+        }
+        return (await column).userId === userId;
     }
 }

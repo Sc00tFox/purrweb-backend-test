@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { GetColumnIdDto, GetColumnDto, CreateColumnsDto, UpdateColumnDto } from "../dtos/columns.dto";
+import { GetColumnIdDto, GetColumnDto, CreateColumnsDto, UpdateColumnDto, DeleteColumnDto } from "../dtos/columns.dto";
 import { ColumnsService } from "../services/columns.service";
 import { AuthGuard } from "@nestjs/passport";
+import { ColumnUpdateGuard } from "src/guards/columns.update.guard";
+import { ColumnDeleteGuard } from "src/guards/colums.delete.guard";
 
 @ApiTags('Columns')
 @Controller('columns')
@@ -34,18 +36,20 @@ export class ColumnsController {
     @ApiResponse({ status: 200 })
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
+    @UseGuards(ColumnUpdateGuard)
     @Put()
     async updateColumn(@Body() input: UpdateColumnDto) {
-        return this.columnsService.updateColumn({ id: input.id, title: input.title });
+        return this.columnsService.updateColumn({ id: input.id, title: input.title, userId: input.userId });
     }
 
     @ApiOperation({ summary: 'Delete column by Id' })
-    @ApiBody({ type: GetColumnIdDto })
+    @ApiBody({ type: DeleteColumnDto })
     @ApiResponse({ status: 200 })
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
-    @Delete(':id')
-    async deleteUserColumnById(@Param("id", ParseIntPipe) id: number) {
-        return this.columnsService.deleteColumnById(id);
+    @UseGuards(ColumnDeleteGuard)
+    @Delete()
+    async deleteUserColumnById(@Body() input: DeleteColumnDto) {
+        return this.columnsService.deleteColumnById({ id: input.id, userId: input.userId });
     }
 }
