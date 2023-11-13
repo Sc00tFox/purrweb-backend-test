@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CommentsService } from "../services/comments.service";
-import { CreateCommentDto, GetCommentDto, GetCommentIdDto, UpdateCommentDto } from "../dtos/comments.dto";
+import { CreateCommentDto, DeleteCommentDto, GetCommentDto, GetCommentIdDto, UpdateCommentDto } from "../dtos/comments.dto";
 import { AuthGuard } from "@nestjs/passport";
+import { CommentUpdateGuard } from "src/guards/comments.update.guard";
+import { CommentDeleteGuard } from "src/guards/comments.delete.guard";
 
 @ApiTags('Comments')
 @Controller('comments')
@@ -34,9 +36,10 @@ export class CommentsController {
     @ApiResponse({ status: 200 })
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
+    @UseGuards(CommentUpdateGuard)
     @Put()
     async updateColumn(@Body() input: UpdateCommentDto) {
-        return this.commentsService.updateCard({ id: input.id, body: input.body });
+        return this.commentsService.updateCard({ id: input.id, body: input.body, userId: input.userId });
     }
 
     @ApiOperation({ summary: 'Delete comment by Id' })
@@ -44,8 +47,9 @@ export class CommentsController {
     @ApiResponse({ status: 200 })
     @ApiBearerAuth()
     @UseGuards(AuthGuard('jwt'))
-    @Delete(':id')
-    async deleteUserColumnById(@Param("id", ParseIntPipe) id: number) {
-        return this.commentsService.deleteCommentById(id);
+    @UseGuards(CommentDeleteGuard)
+    @Delete()
+    async deleteUserColumnById(@Body() input: DeleteCommentDto) {
+        return this.commentsService.deleteComment({ id: input.id, userId: input.userId });
     }
 }

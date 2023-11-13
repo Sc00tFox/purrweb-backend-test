@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Comments } from "../entities/comments.entity";
 import { Repository } from "typeorm";
-import { CreateCommentDto, UpdateCommentDto } from "../dtos/comments.dto";
+import { CreateCommentDto, DeleteCommentDto, UpdateCommentDto } from "../dtos/comments.dto";
 
 @Injectable()
 export class CommentsService {
@@ -29,7 +29,13 @@ export class CommentsService {
         return this.commentsRepository.save(findComment);
     }
 
-    async deleteCommentById(id: number) {
-        return this.commentsRepository.delete({ id: id });
+    async deleteComment(comment: DeleteCommentDto) {
+        const findComment = await this.commentsRepository.findOne({ where: { id: comment.id }});
+
+        if (!findComment) {
+            throw new NotFoundException("Comment not Found!");
+        }
+        
+        return this.commentsRepository.delete({ id: comment.id });
     }
 }

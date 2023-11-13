@@ -58,4 +58,21 @@ export class UpdateCommentDto {
     @IsNotEmpty()
     @IsString()
     body: string;
+
+    @ApiProperty({ example: "1", description: "Comment UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
+}
+
+export class DeleteCommentDto {
+    @ApiProperty({ example: "1", description: "Comment Id"})
+    @IsNotEmpty()
+    @IsNumber()
+    id: number;
+
+    @ApiProperty({ example: "1", description: "Comment UserId"})
+    @IsNotEmpty()
+    @IsNumber()
+    userId: number;
 }
