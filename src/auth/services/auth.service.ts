@@ -2,7 +2,6 @@ import { ForbiddenException, Injectable, UnauthorizedException } from "@nestjs/c
 import { JwtService } from "@nestjs/jwt";
 import { UserService } from "src/users/services/users.service";
 import { AuthDto, AuthResponse } from "../dtos/auth.dto";
-import * as crypto from "crypto";
 
 @Injectable()
 export class AuthService {
@@ -24,7 +23,7 @@ export class AuthService {
     }
 
     async signIn(dto: AuthDto): Promise<AuthResponse> {
-        const password = crypto.createHmac("sha512", dto.password).digest("hex");
+        const password = await this.userService.cryptoPassword(dto.password);
         const user = await this.userService.getByEmailAndPassword(dto.email, password);
 
         if (!user) {
