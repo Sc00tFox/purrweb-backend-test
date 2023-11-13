@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Cards } from "../entities/cards.entity";
 import { Repository } from "typeorm";
-import { CreateCardDto, UpdateCardDto } from "../dtos/cards.dto";
+import { CreateCardDto, DeleteCardDto, UpdateCardDto } from "../dtos/cards.dto";
 
 @Injectable()
 export class CardsService {
@@ -29,7 +29,13 @@ export class CardsService {
         return this.cardsRepository.save(findCard);
     }
 
-    async deleteCardById(id: number) {
-        return this.cardsRepository.delete({ id: id });
+    async deleteCard(card: DeleteCardDto) {
+        const findCard = await this.cardsRepository.findOne({ where: { id: card.id }});
+
+        if (!findCard) {
+            throw new NotFoundException("Card not Found!");
+        }
+        
+        return this.cardsRepository.delete({ id: card.id });
     }
 }
